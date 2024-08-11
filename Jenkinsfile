@@ -1,36 +1,39 @@
 pipeline {
-  agent { 
-    docker { 
-      image 'mcr.microsoft.com/playwright:v1.46.0-focal'
-    } 
-  }
-  stages {
-    stage('install playwright') {
-      steps {
-        sh '''
-          npm i -D @playwright/test
-          npx playwright install
-        '''
-      }
+    agent { 
+        docker { 
+            image 'mcr.microsoft.com/playwright:v1.46.0-focal'
+            args '-v /dev/shm:/dev/shm'  
+        } 
     }
-    stage('help') {
-      steps {
-        sh 'npx playwright test --help'
-      }
-    }
-    stage('test') {
-      steps {
-        sh '''
-          npx playwright test --list
-          npx playwright test
-        '''
-      }
-      post {
-        success {
-          archiveArtifacts(artifacts: 'homepage-*.png', followSymlinks: false)
-          sh 'rm -rf *.png'
+    stages {
+        stage('Install Playwright') {
+            steps {
+                sh '''
+                    npm install -D @playwright/test
+                    npx playwright install
+                '''
+            }
         }
-      }
+        stage('Help') {
+            steps {
+                sh 'npx playwright test --help'
+            }
+        }
+        stage('Run Tests') {
+            steps {
+                sh '''
+                    npx playwright test --list
+                    npx playwright test
+                '''
+            }
+            post {
+                success {
+                    archiveArtifacts artifacts: 'homepage-*.png', followSymlinks: false
+                }
+                cleanup {
+                    sh 'rm -rf homepage-*.png'
+                }
+            }
+        }
     }
-  }
 }
