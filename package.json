@@ -1,0 +1,22 @@
+{
+  "name": "bs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BigDreamZied/angular-playwright-jenkins.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BigDreamZied/angular-playwright-jenkins/issues"
+  },
+  "homepage": "https://github.com/BigDreamZied/angular-playwright-jenkins#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.46.0",
+    "@types/node": "^22.2.0"
+  }
+}
